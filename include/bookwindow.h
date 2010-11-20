@@ -52,18 +52,16 @@ namespace Grantlee
 class Engine;
 }
 
-class BookWindow: public QMainWindow
+class BookWindow
 {
-    Q_OBJECT
 public:
     BookWindow();
 
-protected Q_SLOTS:
     void renderBooks();
 
 private:
     void showError(const QSqlError &err);
-    Ui::BookWindow ui;
+    //Ui::BookWindow ui;
     QSqlRelationalTableModel *model;
     int authorIdx, genreIdx;
     Grantlee::Engine *m_engine;

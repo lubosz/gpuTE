@@ -45,6 +45,7 @@
 #include "bookwrapper.h"
 #include "bookdelegate.h"
 #include "initdb.h"
+#include <iostream>
 //#include "grantlee_paths.h"
 
 #include <QtSql>
@@ -53,10 +54,10 @@
 
 BookWindow::BookWindow()
 {
-    ui.setupUi(this);
+    //ui.setupUi(this);
 
     if (!QSqlDatabase::drivers().contains("QSQLITE"))
-        QMessageBox::critical(this, "Unable to load database", "This demo needs the SQLITE driver");
+        qDebug() << (this, "Unable to load database", "This demo needs the SQLITE driver");
 
     // initialize the database
     QSqlError err = initDb();
@@ -66,7 +67,8 @@ BookWindow::BookWindow()
     }
 
     // Create the data model
-    model = new QSqlRelationalTableModel(ui.bookTable);
+    //model = new QSqlRelationalTableModel(ui.bookTable);
+    model = new QSqlRelationalTableModel();
     model->setEditStrategy(QSqlTableModel::OnManualSubmit);
     model->setTable("books");
 
@@ -79,18 +81,19 @@ BookWindow::BookWindow()
     model->setRelation(genreIdx, QSqlRelation("genres", "id", "name"));
 
     // Set the localized header captions
+    /*
     model->setHeaderData(authorIdx, Qt::Horizontal, tr("Author Name"));
     model->setHeaderData(genreIdx, Qt::Horizontal, tr("Genre"));
     model->setHeaderData(model->fieldIndex("title"), Qt::Horizontal, tr("Title"));
     model->setHeaderData(model->fieldIndex("year"), Qt::Horizontal, tr("Year"));
     model->setHeaderData(model->fieldIndex("rating"), Qt::Horizontal, tr("Rating"));
-
+	*/
     // Populate the model
     if (!model->select()) {
         showError(model->lastError());
         return;
     }
-
+/*
     // Set the model and hide the ID column
     ui.bookTable->setModel(model);
     ui.bookTable->setItemDelegate(new BookDelegate(ui.bookTable));
@@ -103,24 +106,26 @@ BookWindow::BookWindow()
 
     ui.genreEdit->setModel(model->relationModel(genreIdx));
     ui.genreEdit->setModelColumn(model->relationModel(genreIdx)->fieldIndex("name"));
-
-    QDataWidgetMapper *mapper = new QDataWidgetMapper(this);
+*/
+    QDataWidgetMapper *mapper = new QDataWidgetMapper();
     mapper->setModel(model);
-    mapper->setItemDelegate(new BookDelegate(this));
+    //mapper->setItemDelegate(new BookDelegate());
+    /*
     mapper->addMapping(ui.titleEdit, model->fieldIndex("title"));
     mapper->addMapping(ui.yearEdit, model->fieldIndex("year"));
     mapper->addMapping(ui.authorEdit, authorIdx);
     mapper->addMapping(ui.genreEdit, genreIdx);
     mapper->addMapping(ui.ratingEdit, model->fieldIndex("rating"));
-
+*/
+/*
     connect(ui.bookTable->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
             mapper, SLOT(setCurrentModelIndex(QModelIndex)));
 
     ui.bookTable->setCurrentIndex(model->index(0, 0));
 
     ui.exportTheme->insertItems(0, QStringList() << "simple" << "coloured" << "simple2" << "coloured2" );
-
-    connect(ui.exportButton, SIGNAL(pressed()), SLOT(renderBooks()));
+*/
+    //connect(ui.exportButton, SIGNAL(pressed()), SLOT(renderBooks()));
 
     m_engine = new Grantlee::Engine();
     Grantlee::FileSystemTemplateLoader::Ptr loader = Grantlee::FileSystemTemplateLoader::Ptr( new Grantlee::FileSystemTemplateLoader() );
@@ -132,7 +137,7 @@ BookWindow::BookWindow()
 
 void BookWindow::showError(const QSqlError &err)
 {
-    QMessageBox::critical(this, "Unable to initialize Database",
+    qDebug() << (this, "Unable to initialize Database",
                 "Error initializing database: " + err.text());
 }
 
@@ -147,31 +152,32 @@ void BookWindow::renderBooks()
       QString author = model->index(row, 2).data().toString();
       QString genre = model->index(row, 3).data().toString();
       int rating = model->index(row, 5).data().toInt();
-      QObject *book = new BookWrapper(author, title, genre, rating, this);
+      QObject *book = new BookWrapper(author, title, genre, rating);
       QVariant var = QVariant::fromValue(book);
       bookList.append(var);
     }
     mapping.insert("books", bookList);
 
-    QString themeName = ui.exportTheme->currentText();
+    QString themeName = "simple";
 
     Grantlee::Context c(mapping);
 
     Grantlee::Template t = m_engine->loadByName( themeName + ".html" );
     if (!t)
     {
-      QMessageBox::critical(this, "Unable to load template",
+      qDebug() << (this, "Unable to load template",
                 QString( "Error loading template: %1" ).arg( themeName + ".html" ) );
       return;
     }
 
     if ( t->error() )
     {
-      QMessageBox::critical(this, "Unable to load template",
+      qDebug() << (this, "Unable to load template",
                 QString( "Error loading template: %1" ).arg( t->errorString() ) );
       return;
     }
 
+    /*
     bool ok;
     QString text = QInputDialog::getText(this, tr("Export Location"),
                                          tr("file name:"), QLineEdit::Normal,
@@ -182,17 +188,18 @@ void BookWindow::renderBooks()
     QFile file( text );
     if ( !file.open( QIODevice::WriteOnly | QIODevice::Text ) )
       return;
-
+*/
     QString content = t->render(&c);
 
     if ( t->error() )
     {
-      QMessageBox::critical(this, "Unable render template",
+      qDebug() << (this, "Unable render template",
                 QString( "Error rendering template: %1" ).arg( t->errorString() ) );
       return;
     }
 
-    file.write(content.toLocal8Bit());
-    file.close();
+    std::cout << qPrintable(content);
+    //file.write(content.toLocal8Bit());
+    //file.close();
 
 }
