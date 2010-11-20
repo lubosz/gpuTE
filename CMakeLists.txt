@@ -10,6 +10,7 @@ add_definitions(-DQT_GUI_LIB)
 ADD_DEFINITIONS(-DQT_NO_KEYWORDS)
 
 include_directories(
+	include
   ${QT_INCLUDES}
   ${QT_QTGUI_INCLUDE_DIR}
   ${QT_QTSQL_INCLUDE_DIR}
@@ -17,21 +18,16 @@ include_directories(
   ${PROJECT_BINARY_DIR}
 )
 
-configure_file(grantlee_paths.h.cmake ${PROJECT_BINARY_DIR}/grantlee_paths.h)
+configure_file(res/grantlee_paths.h.cmake ${PROJECT_BINARY_DIR}/grantlee_paths.h)
 
-set(books_example_SRCS
-  main.cpp
-  bookwindow.cpp
-  bookwrapper.cpp
-  bookdelegate.cpp
-)
+file(GLOB_RECURSE books_example_SRCS src/*.cpp)
 
 set(books_example_RCSS
-  books.qrc
+  res/books.qrc
 )
 
 set(books_example_UI
-  bookwindow.ui
+  res/bookwindow.ui
 )
 
 qt4_automoc( books_example_MOC_SRCS ${books_example_SRCS} )
