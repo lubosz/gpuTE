@@ -18,7 +18,8 @@ include_directories(
   ${PROJECT_BINARY_DIR}
 )
 
-configure_file(res/grantlee_paths.h.cmake ${PROJECT_BINARY_DIR}/grantlee_paths.h)
+ADD_DEFINITIONS(-DGRANTLEE_TEMPLATE_PATH="templates")
+ADD_DEFINITIONS(-DGRANTLEE_PLUGIN_PATH="${Grantlee_PLUGIN_PATH}")
 
 file(GLOB_RECURSE books_example_SRCS src/*.cpp)
 file(GLOB_RECURSE books_example_INCS include/*.h)

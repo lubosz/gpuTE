@@ -45,7 +45,7 @@
 #include "bookwrapper.h"
 #include "bookdelegate.h"
 #include "initdb.h"
-#include "grantlee_paths.h"
+//#include "grantlee_paths.h"
 
 #include <QtSql>
 
