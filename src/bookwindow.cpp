@@ -1,6 +1,5 @@
 #include "bookwindow.h"
 #include "bookwrapper.h"
-#include "bookdelegate.h"
 #include "initdb.h"
 #include <iostream>
 

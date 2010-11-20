@@ -24,35 +24,36 @@ ADD_DEFINITIONS(-DGRANTLEE_PLUGIN_PATH="${Grantlee_PLUGIN_PATH}")
 file(GLOB_RECURSE books_example_SRCS src/*.cpp)
 file(GLOB_RECURSE books_example_INCS include/*.h)
 
-set(books_example_RCSS
-  res/books.qrc
-)
+#set(books_example_RCSS
+#  res/books.qrc
+#)
 
-set(books_example_UI
-  res/bookwindow.ui
-)
+#set(books_example_UI
+#  res/bookwindow.ui
+#)
 
 #qt4_automoc( books_example_MOC_SRCS ${books_example_SRCS} )
-QT4_WRAP_CPP(MOC_INCS ${books_example_INCS})
+#QT4_WRAP_CPP(MOC_INCS ${books_example_INCS})
+QT4_WRAP_CPP(MOC_INCS include/bookwrapper.h)
 
-QT4_WRAP_UI(books_example_UI_SRCS ${books_example_UI})
+#QT4_WRAP_UI(books_example_UI_SRCS ${books_example_UI})
 
-qt4_add_resources(
-  books_example_RCS_SRCS
-  ${books_example_RCSS}
-)
+#qt4_add_resources(
+#  books_example_RCS_SRCS
+#  ${books_example_RCSS}
+#)
 
 add_executable(books
 
   ${MOC_INCS}
   ${books_example_SRCS}
-  ${books_example_RCS_SRCS}
-  ${books_example_UI_SRCS}
+#  ${books_example_RCS_SRCS}
+#  ${books_example_UI_SRCS}
 )
 
 target_link_libraries(
   books
-  ${QT_QTGUI_LIBRARIES}
+#  ${QT_QTGUI_LIBRARIES}
   ${QT_QTSQL_LIBRARIES}
   ${Grantlee_CORE_LIBRARIES}
 )
