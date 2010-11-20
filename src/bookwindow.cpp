@@ -196,6 +196,3 @@ void BookWindow::renderBooks()
     file.close();
 
 }
-
-#include "../include/moc_bookwindow.cxx"
-

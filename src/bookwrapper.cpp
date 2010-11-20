@@ -20,5 +20,3 @@
 
 
 #include "bookwrapper.h"
-
-//#include "../include/moc_bookwrapper.cxx"
