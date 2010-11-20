@@ -21,6 +21,7 @@ include_directories(
 configure_file(res/grantlee_paths.h.cmake ${PROJECT_BINARY_DIR}/grantlee_paths.h)
 
 file(GLOB_RECURSE books_example_SRCS src/*.cpp)
+file(GLOB_RECURSE books_example_INCS include/*.h)
 
 set(books_example_RCSS
   res/books.qrc
@@ -30,7 +31,8 @@ set(books_example_UI
   res/bookwindow.ui
 )
 
-qt4_automoc( books_example_MOC_SRCS ${books_example_SRCS} )
+#qt4_automoc( books_example_MOC_SRCS ${books_example_SRCS} )
+QT4_WRAP_CPP(MOC_INCS ${books_example_INCS})
 
 QT4_WRAP_UI(books_example_UI_SRCS ${books_example_UI})
 
@@ -40,6 +42,8 @@ qt4_add_resources(
 )
 
 add_executable(books
+
+  ${MOC_INCS}
   ${books_example_SRCS}
   ${books_example_RCS_SRCS}
   ${books_example_UI_SRCS}

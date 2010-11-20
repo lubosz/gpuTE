@@ -21,4 +21,4 @@
 
 #include "bookwrapper.h"
 
-#include "bookwrapper.moc"
+//#include "../include/moc_bookwrapper.cxx"

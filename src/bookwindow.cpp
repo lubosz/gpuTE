@@ -197,5 +197,5 @@ void BookWindow::renderBooks()
 
 }
 
-#include "bookwindow.moc"
+#include "../include/moc_bookwindow.cxx"
 
