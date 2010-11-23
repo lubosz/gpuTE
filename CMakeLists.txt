@@ -10,8 +10,8 @@ INCLUDE(${QT_USE_FILE})
 
 include_directories(
 	include
-  ${QT_INCLUDES}
-  ${Grantlee_INCLUDE_DIRS}
+	${QT_INCLUDES}
+	${Grantlee_INCLUDE_DIRS}
 )
 
 ADD_DEFINITIONS(-DGRANTLEE_TEMPLATE_PATH="templates")

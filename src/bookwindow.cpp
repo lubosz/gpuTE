@@ -43,8 +43,6 @@ BookWindow::BookWindow()
     Grantlee::FileSystemTemplateLoader::Ptr loader = Grantlee::FileSystemTemplateLoader::Ptr( new Grantlee::FileSystemTemplateLoader() );
     loader->setTemplateDirs( QStringList() << GRANTLEE_TEMPLATE_PATH );
     m_engine->addTemplateLoader(loader);
-
-    //m_engine->setPluginPaths( QStringList() << GRANTLEE_PLUGIN_PATH );
 }
 
 void BookWindow::showError(const QSqlError &err)
